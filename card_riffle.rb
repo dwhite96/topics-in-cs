@@ -4,24 +4,13 @@
 
 # O(n) time, O(1) space.
 
-  # Input a deck of cards identified by the integers 1..52. Can be any order.
-  # Input a deck of cards identified by the integers 1..52 in any order but split in two.
   # Compare the full deck with the two halves.
-  # Regardless of order of cards (in two halves), imagine the index positions are
-  #   always the same: 1..52
-  # Look for alternating cards in the full deck: 1,27,2,28,3,29,4,30...etc.
-  # If the cards alternate perfectly, then the full deck is a riffle.
-  # It is possible that the cards don't alternate perfectly.
-  # Since the order from each half is known, then you can iterate through the deck
+  # Since the order of each half is known, then iterate through the deck
   #   and expect to find each half in order just mixed with the other half.
-  # At what point though should the program know the deck couldn't have been riffled?
-# class CardRiffle
-# end
 
-def card_riffle(deck, halve_a, halve_b)
-  index_a = 0
-  index_b = 0
-  count = 0
+def card_riffle?(deck, halve_a, halve_b)
+  index_a, index_b, count = 0, 0, 0
+
   deck.each do |card|
     if card == halve_a[index_a]
       index_a += 1
@@ -33,11 +22,7 @@ def card_riffle(deck, halve_a, halve_b)
     count += 1
   end
 
-  if count == 52
-    puts "The deck was produced by a riffle of the two halves!"
-  else
-    puts "The deck was not produced by a riffle of the two halves!"
-  end
+  count == 52 ? true : false
 end
 
 if __FILE__ == $PROGRAM_NAME
@@ -45,8 +30,29 @@ if __FILE__ == $PROGRAM_NAME
   halve_a = deck[0..25]
   halve_b = deck[26..51]
 
-  # halve_a = *(1..26)
-  # halve_b = *(27..52)
+  if card_riffle?(deck, halve_a, halve_b) == true
+    p 'The deck was produced by a riffle of the two halves!'
+  else
+    p 'The deck was not produced by a riffle of the two halves!'
+  end
 
-  card_riffle(deck, halve_a, halve_b)
+  deck = (1..52).to_a.shuffle
+  halve_a = deck[0..25]
+  halve_b = deck[26..50]
+
+  if card_riffle?(deck, halve_a, halve_b) == true
+    p 'The deck was produced by a riffle of the two halves!'
+  else
+    p 'The deck was not produced by a riffle of the two halves!'
+  end
+
+  deck = (1..52).to_a.shuffle
+  halve_a = *(1..26)
+  halve_b = *(27..52)
+
+  if card_riffle?(deck, halve_a, halve_b) == true
+    p 'The deck was produced by a riffle of the two halves!'
+  else
+    p 'The deck was not produced by a riffle of the two halves!'
+  end
 end
