@@ -26,33 +26,26 @@ def card_riffle?(deck, halve_a, halve_b)
 end
 
 if __FILE__ == $PROGRAM_NAME
+  def card_riffle_test(deck, halve_a, halve_b)
+    if card_riffle?(deck, halve_a, halve_b)
+      p 'The deck was produced by a riffle of the two halves!'
+    else
+      p 'The deck was not produced by a riffle of the two halves!'
+    end
+  end
+
   deck = (1..52).to_a.shuffle
   halve_a = deck[0..25]
   halve_b = deck[26..51]
-
-  if card_riffle?(deck, halve_a, halve_b) == true
-    p 'The deck was produced by a riffle of the two halves!'
-  else
-    p 'The deck was not produced by a riffle of the two halves!'
-  end
+  card_riffle_test(deck, halve_a, halve_b)
 
   deck = (1..52).to_a.shuffle
   halve_a = deck[0..25]
   halve_b = deck[26..50]
-
-  if card_riffle?(deck, halve_a, halve_b) == true
-    p 'The deck was produced by a riffle of the two halves!'
-  else
-    p 'The deck was not produced by a riffle of the two halves!'
-  end
+  card_riffle_test(deck, halve_a, halve_b)
 
   deck = (1..52).to_a.shuffle
   halve_a = *(1..26)
   halve_b = *(27..52)
-
-  if card_riffle?(deck, halve_a, halve_b) == true
-    p 'The deck was produced by a riffle of the two halves!'
-  else
-    p 'The deck was not produced by a riffle of the two halves!'
-  end
+  card_riffle_test(deck, halve_a, halve_b)
 end
