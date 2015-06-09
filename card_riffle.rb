@@ -8,44 +8,58 @@
   # Since the order of each half is known, then iterate through the deck
   #   and expect to find each half in order just mixed with the other half.
 
-def card_riffle?(deck, halve_a, halve_b)
-  index_a, index_b, count = 0, 0, 0
+class CardRiffle
+  attr_reader :deck
 
-  deck.each do |card|
-    if card == halve_a[index_a]
-      index_a += 1
-    elsif card == halve_b[index_b]
-      index_b += 1
-    else
-      break
-    end
-    count += 1
+  def initialize
+    @deck = (1..52).to_a.shuffle
   end
 
-  count == 52 ? true : false
+  def riffled?(deck, first_half_deck, second_half_deck)
+    first_half_card, second_half_card, count = 0, 0, 0
+
+    @deck.each do |card|
+      if card.next?(@deck[first_half_deck], first_half_card)
+        first_half_card += 1
+      elsif card.next?(@deck[second_half_deck], second_half_card)
+        second_half_card += 1
+      else
+        break
+      end
+      count += 1
+    end
+
+    count == 52 ? true : false
+  end
+
+  def next?(halve, current_card)
+    self == halve[current_card]
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  def card_riffle_test(deck, halve_a, halve_b)
-    if card_riffle?(deck, halve_a, halve_b)
+  def card_riffle_test(halve_a, halve_b)
+    deck = CardRiffle.new
+
+    if deck.riffled?(@deck, halve_a, halve_b)
       p 'The deck was produced by a riffle of the two halves!'
     else
       p 'The deck was not produced by a riffle of the two halves!'
     end
   end
 
-  deck = (1..52).to_a.shuffle
-  halve_a = deck[0..25]
-  halve_b = deck[26..51]
-  card_riffle_test(deck, halve_a, halve_b)
+  # deck = (1..52).to_a.shuffle
+  halve_a = (0..25)
+  halve_b = (26..51)
+  card_riffle_test(halve_a, halve_b)
 
-  deck = (1..52).to_a.shuffle
-  halve_a = deck[0..25]
-  halve_b = deck[26..50]
-  card_riffle_test(deck, halve_a, halve_b)
+  # deck = (1..52).to_a.shuffle
+  halve_a = (0..25)
+  halve_b = (26..50)
+  card_riffle_test(halve_a, halve_b)
 
-  deck = (1..52).to_a.shuffle
+  # deck = (1..52).to_a.shuffle
   halve_a = *(1..26)
   halve_b = *(27..52)
-  card_riffle_test(deck, halve_a, halve_b)
+  card_riffle_test(halve_a, halve_b)
 end
